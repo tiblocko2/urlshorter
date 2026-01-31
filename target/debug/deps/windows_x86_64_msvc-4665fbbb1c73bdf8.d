@@ -1,7 +1,7 @@
-C:\Users\Admin\Documents\rust_server\url-shortler\target\debug\deps\windows_x86_64_msvc-4665fbbb1c73bdf8.d: C:\Users\Admin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\windows_x86_64_msvc-0.53.1\src\lib.rs
+C:\Users\sobak\Documents\rust\urlshorter\target\debug\deps\windows_x86_64_msvc-4665fbbb1c73bdf8.d: C:\Users\sobak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\windows_x86_64_msvc-0.53.1\src\lib.rs
 
-C:\Users\Admin\Documents\rust_server\url-shortler\target\debug\deps\libwindows_x86_64_msvc-4665fbbb1c73bdf8.rlib: C:\Users\Admin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\windows_x86_64_msvc-0.53.1\src\lib.rs
+C:\Users\sobak\Documents\rust\urlshorter\target\debug\deps\libwindows_x86_64_msvc-4665fbbb1c73bdf8.rlib: C:\Users\sobak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\windows_x86_64_msvc-0.53.1\src\lib.rs
 
-C:\Users\Admin\Documents\rust_server\url-shortler\target\debug\deps\libwindows_x86_64_msvc-4665fbbb1c73bdf8.rmeta: C:\Users\Admin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\windows_x86_64_msvc-0.53.1\src\lib.rs
+C:\Users\sobak\Documents\rust\urlshorter\target\debug\deps\libwindows_x86_64_msvc-4665fbbb1c73bdf8.rmeta: C:\Users\sobak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\windows_x86_64_msvc-0.53.1\src\lib.rs
 
-C:\Users\Admin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\windows_x86_64_msvc-0.53.1\src\lib.rs:
+C:\Users\sobak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\windows_x86_64_msvc-0.53.1\src\lib.rs:

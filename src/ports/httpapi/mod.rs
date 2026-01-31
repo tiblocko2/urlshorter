@@ -1,53 +1,37 @@
-use std::sync::Arc;
-
-use axum::extract::{MatchedPath, Path, Request, State};
-use axum::response::{IntoResponse, Response};
-use axum::routing::{get, post};
-use axum::{http, Json, Router};
-use serde::{Deserialize, Serialize};
+use axum::{Router, Json, routing::{get, post}};
+use axum::extract::{State, MatchedPath, Path};
+use tokio::net::TcpListener;
 use tower_http::trace::TraceLayer;
+use serde::{Deserialize, Serialize};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
-
-use crate::app::command::create_short_url::CreateShortUrlRepository;
-use crate::app::query::get_full_url::GetFullUrlRepository;
-use crate::di::Container;
-use crate::error::AppError;
-use crate::id_provider::IdProvider;
+use crate::{di::Container, id_provider::IdProvider, app::{query::get_full_url::GetFullUrlRepository, command::create_short_url::CreateShortUrlRepository}};
+use std::sync::Arc;
 
 #[derive(Serialize, Deserialize)]
 struct ErrorResponse {
     message: String,
 }
 
-impl IntoResponse for AppError {
-    fn into_response(self) -> Response {
-        let (status, message) = match self {
-            AppError::URLParseError => (http::StatusCode::BAD_REQUEST, "Invalid URL".to_owned()),
-            AppError::NotFound => (http::StatusCode::NOT_FOUND, "Not found".to_owned()),
-        };
-
-        (status, Json(ErrorResponse { message })).into_response()
-    }
-}
-
 pub struct Server<I, R, Q>
 where
-    I: IdProvider + Send + Sync + 'static,
     R: CreateShortUrlRepository + Send + Sync + 'static,
+    I: IdProvider + Send + Sync + 'static,
     Q: GetFullUrlRepository + Send + Sync + 'static,
+
 {
     port: u16,
     container: Arc<Container<I, R, Q>>,
+
 }
 
 impl<I, R, Q> Server<I, R, Q>
-where
-    I: IdProvider + Send + Sync + 'static,
+where 
     R: CreateShortUrlRepository + Send + Sync + 'static,
+    I: IdProvider + Send + Sync + 'static,
     Q: GetFullUrlRepository + Send + Sync + 'static,
 {
     pub fn new(port: u16, container: Arc<Container<I, R, Q>>) -> Self {
-        Server { port, container }
+        Self { port, container}
     }
 
     pub async fn run(self) {
@@ -58,19 +42,19 @@ where
             )
             .with(tracing_subscriber::fmt::layer())
             .init();
+        let app = get_router(self.container.clone());
+        let listener = TcpListener::bind(format!("0.0.0.0:{}", self.port))
+            .await
+            .unwrap();
 
-        let router = get_router(self.container);
-        let addr = format!("0.0.0.0:{}", self.port);
-        let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
-
-        axum::serve(listener, router).await.unwrap();
+        axum::serve(listener, app).await.unwrap();
     }
 }
 
-fn get_router<I, R, Q>(container: Arc<Container<I, R, Q>>) -> Router
+pub fn get_router<I, R, Q>(container: Arc<Container<I, R, Q>>) -> Router 
 where
-    I: IdProvider + Send + Sync + 'static,
     R: CreateShortUrlRepository + Send + Sync + 'static,
+    I: IdProvider + Send + Sync + 'static,
     Q: GetFullUrlRepository + Send + Sync + 'static,
 {
     Router::new()
@@ -78,14 +62,13 @@ where
         .route("/", post(shorten_url))
         .layer(
             TraceLayer::new_for_http()
-                .make_span_with(|req: &Request| {
+                .make_span_with(|req: &axum::extract::Request| {
                     let method = req.method();
                     let uri = req.uri();
                     let matched_path = req
                         .extensions()
                         .get::<MatchedPath>()
                         .map(|matched_path| matched_path.as_str());
-
                     tracing::debug_span!("request", %method, %uri, matched_path)
                 })
                 .on_failure(()),
@@ -93,28 +76,28 @@ where
         .with_state(container)
 }
 
-#[derive(Deserialize, Serialize)]
-struct CreateShortURLRequest {
+#[derive(Serialize, Deserialize)]
+struct CreateShortUrlRequest {
     url: String,
 }
 
-#[derive(Deserialize, Serialize)]
+#[derive(Serialize, Deserialize)]
 struct ShortUrlResponse {
     id: String,
 }
 
 async fn shorten_url<I, R, Q>(
     State(container): State<Arc<Container<I, R, Q>>>,
-    Json(input): Json<CreateShortURLRequest>,
-) -> Result<Json<ShortUrlResponse>, AppError>
-where
-    I: IdProvider + Send + Sync + 'static,
+    Json(input): Json<CreateShortUrlRequest>,
+) -> Result<Json<ShortUrlResponse>, String>
+where 
     R: CreateShortUrlRepository + Send + Sync + 'static,
+    I: IdProvider + Send + Sync + 'static,
     Q: GetFullUrlRepository + Send + Sync + 'static,
 {
     container
         .shorten_command
-        .execute(&input.url)
+        .execute(input.url)
         .await
         .map(|id| Json(ShortUrlResponse { id }))
 }
@@ -126,36 +109,33 @@ struct FullUrlResponse {
 
 impl From<String> for FullUrlResponse {
     fn from(url: String) -> Self {
-        FullUrlResponse { url }
+        FullUrlResponse {url}
     }
 }
 
-async fn get_full_url<I, Q, R>(
+async fn get_full_url<I, R, Q>(
     Path(id): Path<String>,
     State(container): State<Arc<Container<I, R, Q>>>,
-) -> Result<Json<FullUrlResponse>, AppError>
-where
-    I: IdProvider + Send + Sync + 'static,
+) -> Result<Json<FullUrlResponse>, String>
+where 
     R: CreateShortUrlRepository + Send + Sync + 'static,
+    I: IdProvider + Send + Sync + 'static,
     Q: GetFullUrlRepository + Send + Sync + 'static,
 {
     container
         .get_full_url_query
         .execute(&id)
-        .await
         .map(|url| Json(FullUrlResponse::from(url)))
 }
 
 #[cfg(test)]
 mod tests {
-    use axum::{body::Body, http};
     use dashmap::DashMap;
     use http_body_util::BodyExt;
     use tower::ServiceExt;
-
-    use crate::{adapters::inmemory::InMemoryRepository, id_provider::FakeIdProvider};
-
+    use axum::{body::Body, http};
     use super::*;
+    use crate::{adapters::inmemory::InMemoryRepository, id_provider::FakeIdProvider};
 
     fn get_router_with_mock_container() -> Router {
         let store = Arc::new(DashMap::new());
@@ -166,7 +146,7 @@ mod tests {
         let container = Container::new(
             FakeIdProvider::new("test-id".to_owned()),
             repo.clone(),
-            repo,
+            repo
         );
 
         get_router(Arc::new(container))
@@ -174,10 +154,11 @@ mod tests {
 
     #[tokio::test]
     async fn test_get_full_url() {
-        // Given
+        //Given
+        //let container = Arc::new(Container::new(InMemoryRepository));
         let router = get_router_with_mock_container();
 
-        // When
+        //When
         let response = router
             .oneshot(
                 http::Request::builder()
@@ -187,97 +168,73 @@ mod tests {
             )
             .await
             .unwrap();
-
-        // Then
-        assert_eq!(response.status(), http::StatusCode::OK);
-
+        
+        //Then
+        assert_eq!(response.status(), 200);
+        
         let body = response.into_body().collect().await.unwrap().to_bytes();
         let body: FullUrlResponse = serde_json::from_slice(&body).unwrap();
-        assert_eq!(body.url, "test-url");
-    }
-
-    #[tokio::test]
-    async fn get_not_found() {
-        // Given
-        let router = get_router_with_mock_container();
-
-        // When
-        let response = router
-            .oneshot(
-                http::Request::builder()
-                    .uri("/not-found")
-                    .body(Body::empty())
-                    .unwrap(),
-            )
-            .await
-            .unwrap();
-
-        // Then
-        assert_eq!(response.status(), http::StatusCode::NOT_FOUND);
-
-        let body = response.into_body().collect().await.unwrap().to_bytes();
-        let body: ErrorResponse = serde_json::from_slice(&body).unwrap();
-        assert_eq!(body.message, "Not found");
+        assert_eq!(body.url,"test-url");
     }
 
     #[tokio::test]
     async fn test_get_different_id() {
-        // Given
+        //Given
         let router = get_router_with_mock_container();
 
-        // When
+        //When
         let response = router
             .oneshot(
                 http::Request::builder()
-                    .uri("/test-id-2")
-                    .body(Body::empty())
-                    .unwrap(),
+                .uri("/test-id-2")
+                .body(Body::empty())
+                .unwrap()
             )
             .await
             .unwrap();
 
-        // Then
-        assert_eq!(response.status(), http::StatusCode::OK);
+        //Then
+        assert_eq!(response.status(), 200);
         let body = response.into_body().collect().await.unwrap().to_bytes();
         let body: FullUrlResponse = serde_json::from_slice(&body).unwrap();
-        assert_eq!(body.url, "test-url-2");
+        assert_eq!(body.url,"test-url-2");
     }
 
     #[tokio::test]
     async fn short_url() {
-        // Given
+        //Given
         let router = get_router_with_mock_container();
 
-        let create_short_url_request = CreateShortURLRequest {
-            url: "https://example.com".to_owned(),
+        let create_short_url_request = CreateShortUrlRequest{
+            url: "http://example.com".to_owned()
         };
 
-        // When
+        //When
         let response = router
             .oneshot(
                 http::Request::builder()
-                    .method(http::Method::POST)
-                    .uri("/")
-                    .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
-                    .body(Body::from(
-                        serde_json::to_string(&create_short_url_request).unwrap(),
-                    ))
-                    .unwrap(),
+                .method(http::Method::POST)
+                .uri("/")
+                .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
+                .body(Body::from(
+                    serde_json::to_string(&create_short_url_request).unwrap()
+                ))
+                .unwrap()
             )
             .await
             .unwrap();
 
-        // Then
+        //Then
         assert_eq!(response.status(), http::StatusCode::OK);
 
         let body = response.into_body().collect().await.unwrap().to_bytes();
         let body: ShortUrlResponse = serde_json::from_slice(&body).unwrap();
-        assert_eq!(body.id, "test-id");
+        assert_eq!(body.id, "test-id")
     }
 
     #[tokio::test]
     async fn short_and_get() {
-        // Given
+        //Given
         let store = Arc::new(DashMap::new());
         let repo = InMemoryRepository::new(store.clone());
         let repo2 = InMemoryRepository::new(store);
@@ -285,17 +242,17 @@ mod tests {
         let container = Arc::new(Container::new(
             FakeIdProvider::new("test-id".to_owned()),
             repo,
-            repo2,
+            repo2
         ));
 
         let router1 = get_router(container.clone());
         let router2 = get_router(container.clone());
 
-        let create_short_url_request = CreateShortURLRequest {
-            url: "https://example.com/".to_owned(),
+        let create_short_url_request = CreateShortUrlRequest {
+            url: "https://example.com/".to_owned()
         };
 
-        // When
+        //When
         let resp1 = router1
             .oneshot(
                 http::Request::builder()
@@ -303,9 +260,9 @@ mod tests {
                     .uri("/")
                     .header(http::header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
                     .body(Body::from(
-                        serde_json::to_string(&create_short_url_request).unwrap(),
+                        serde_json::to_string(&create_short_url_request).unwrap()
                     ))
-                    .unwrap(),
+                    .unwrap()
             )
             .await
             .unwrap();
@@ -332,11 +289,11 @@ mod tests {
         assert_eq!(body.url, "https://example.com/");
     }
 
-    #[tokio::test]
+        #[tokio::test]
     async fn test_invalid_url() {
         // Given
         let router = get_router_with_mock_container();
-        let create_short_url_request = CreateShortURLRequest {
+        let create_short_url_request = CreateShortUrlRequest {
             url: "invalid-url".to_owned(),
         };
 

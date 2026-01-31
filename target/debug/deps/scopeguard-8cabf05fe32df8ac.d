@@ -1,7 +1,7 @@
-C:\Users\Admin\Documents\rust_server\url-shortler\target\debug\deps\scopeguard-8cabf05fe32df8ac.d: C:\Users\Admin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\scopeguard-1.2.0\src\lib.rs
+C:\Users\sobak\Documents\rust\urlshorter\target\debug\deps\scopeguard-8cabf05fe32df8ac.d: C:\Users\sobak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\scopeguard-1.2.0\src\lib.rs
 
-C:\Users\Admin\Documents\rust_server\url-shortler\target\debug\deps\libscopeguard-8cabf05fe32df8ac.rlib: C:\Users\Admin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\scopeguard-1.2.0\src\lib.rs
+C:\Users\sobak\Documents\rust\urlshorter\target\debug\deps\libscopeguard-8cabf05fe32df8ac.rlib: C:\Users\sobak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\scopeguard-1.2.0\src\lib.rs
 
-C:\Users\Admin\Documents\rust_server\url-shortler\target\debug\deps\libscopeguard-8cabf05fe32df8ac.rmeta: C:\Users\Admin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\scopeguard-1.2.0\src\lib.rs
+C:\Users\sobak\Documents\rust\urlshorter\target\debug\deps\libscopeguard-8cabf05fe32df8ac.rmeta: C:\Users\sobak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\scopeguard-1.2.0\src\lib.rs
 
-C:\Users\Admin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\scopeguard-1.2.0\src\lib.rs:
+C:\Users\sobak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\scopeguard-1.2.0\src\lib.rs:

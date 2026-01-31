@@ -1,60 +1,12 @@
-   0.145315500s  INFO prepare_target{force=false package_id=url-shortler v0.1.0 (C:\Users\Admin\Documents\rust_server\url-shortler) target="url-shortler"}: cargo::core::compiler::fingerprint: fingerprint error for url-shortler v0.1.0 (C:\Users\Admin\Documents\rust_server\url-shortler)/Check { test: false }/TargetInner { name: "url-shortler", doc: true, ..: with_path("C:\\Users\\Admin\\Documents\\rust_server\\url-shortler\\src\\main.rs", Edition2024) }
-   0.145414000s  INFO prepare_target{force=false package_id=url-shortler v0.1.0 (C:\Users\Admin\Documents\rust_server\url-shortler) target="url-shortler"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\Admin\Documents\rust_server\url-shortler\target\debug\.fingerprint\url-shortler-2b3ea64233f6564b\bin-url-shortler`
-
-Caused by:
-    Не удается найти указанный файл. (os error 2)
-
-Stack backtrace:
-   0: git_midx_writer_dump
-   1: git_midx_writer_dump
-   2: git_midx_writer_dump
-   3: git_midx_writer_dump
-   4: git_filter_source_repo
-   5: git_filter_source_repo
-   6: git_filter_source_repo
-   7: git_filter_source_repo
-   8: git_filter_source_repo
-   9: git_filter_source_repo
-  10: git_filter_source_repo
-  11: git_libgit2_prerelease
-  12: <unknown>
-  13: <unknown>
-  14: <unknown>
-  15: <unknown>
-  16: git_midx_writer_dump
-  17: git_filter_source_repo
-  18: git_midx_writer_dump
-  19: BaseThreadInitThunk
-  20: RtlUserThreadStart
-   0.178546600s  INFO prepare_target{force=false package_id=url-shortler v0.1.0 (C:\Users\Admin\Documents\rust_server\url-shortler) target="url-shortler"}: cargo::core::compiler::fingerprint: fingerprint error for url-shortler v0.1.0 (C:\Users\Admin\Documents\rust_server\url-shortler)/Check { test: true }/TargetInner { name: "url-shortler", doc: true, ..: with_path("C:\\Users\\Admin\\Documents\\rust_server\\url-shortler\\src\\main.rs", Edition2024) }
-   0.178608300s  INFO prepare_target{force=false package_id=url-shortler v0.1.0 (C:\Users\Admin\Documents\rust_server\url-shortler) target="url-shortler"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\Admin\Documents\rust_server\url-shortler\target\debug\.fingerprint\url-shortler-baab5d4854839299\test-bin-url-shortler`
-
-Caused by:
-    Не удается найти указанный файл. (os error 2)
-
-Stack backtrace:
-   0: git_midx_writer_dump
-   1: git_midx_writer_dump
-   2: git_midx_writer_dump
-   3: git_midx_writer_dump
-   4: git_filter_source_repo
-   5: git_filter_source_repo
-   6: git_filter_source_repo
-   7: git_filter_source_repo
-   8: git_filter_source_repo
-   9: git_filter_source_repo
-  10: git_filter_source_repo
-  11: git_libgit2_prerelease
-  12: <unknown>
-  13: <unknown>
-  14: <unknown>
-  15: <unknown>
-  16: git_midx_writer_dump
-  17: git_filter_source_repo
-  18: git_midx_writer_dump
-  19: BaseThreadInitThunk
-  20: RtlUserThreadStart
-    Checking url-shortler v0.1.0 (C:\Users\Admin\Documents\rust_server\url-shortler)
-error: could not compile `url-shortler` (bin "url-shortler") due to 4 previous errors
-warning: build failed, waiting for other jobs to finish...
-error: could not compile `url-shortler` (bin "url-shortler" test) due to 26 previous errors
+   0.204736200s  INFO prepare_target{force=false package_id=url-shortler v0.1.0 (C:\Users\sobak\Documents\rust\urlshorter) target="url-shortler"}: cargo::core::compiler::fingerprint: stale: changed "C:\\Users\\sobak\\Documents\\rust\\urlshorter\\src\\ports\\httpapi\\mod.rs"
+   0.204794600s  INFO prepare_target{force=false package_id=url-shortler v0.1.0 (C:\Users\sobak\Documents\rust\urlshorter) target="url-shortler"}: cargo::core::compiler::fingerprint:           (vs) "C:\\Users\\sobak\\Documents\\rust\\urlshorter\\target\\debug\\.fingerprint\\url-shortler-f6cdfd54c90409a3\\dep-bin-url-shortler"
+   0.204803500s  INFO prepare_target{force=false package_id=url-shortler v0.1.0 (C:\Users\sobak\Documents\rust\urlshorter) target="url-shortler"}: cargo::core::compiler::fingerprint:                FileTime { seconds: 13414339427, nanos: 316252900 } < FileTime { seconds: 13414339444, nanos: 773981800 }
+   0.205217900s  INFO prepare_target{force=false package_id=url-shortler v0.1.0 (C:\Users\sobak\Documents\rust\urlshorter) target="url-shortler"}: cargo::core::compiler::fingerprint: fingerprint dirty for url-shortler v0.1.0 (C:\Users\sobak\Documents\rust\urlshorter)/Check { test: false }/TargetInner { name: "url-shortler", doc: true, ..: with_path("C:\\Users\\sobak\\Documents\\rust\\urlshorter\\src\\main.rs", Edition2024) }
+   0.205263500s  INFO prepare_target{force=false package_id=url-shortler v0.1.0 (C:\Users\sobak\Documents\rust\urlshorter) target="url-shortler"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleItem(ChangedFile { reference: "C:\\Users\\sobak\\Documents\\rust\\urlshorter\\target\\debug\\.fingerprint\\url-shortler-f6cdfd54c90409a3\\dep-bin-url-shortler", reference_mtime: FileTime { seconds: 13414339427, nanos: 316252900 }, stale: "C:\\Users\\sobak\\Documents\\rust\\urlshorter\\src\\ports\\httpapi\\mod.rs", stale_mtime: FileTime { seconds: 13414339444, nanos: 773981800 } }))
+   0.251101700s  INFO prepare_target{force=false package_id=url-shortler v0.1.0 (C:\Users\sobak\Documents\rust\urlshorter) target="url-shortler"}: cargo::core::compiler::fingerprint: stale: changed "C:\\Users\\sobak\\Documents\\rust\\urlshorter\\src\\ports\\httpapi\\mod.rs"
+   0.251138700s  INFO prepare_target{force=false package_id=url-shortler v0.1.0 (C:\Users\sobak\Documents\rust\urlshorter) target="url-shortler"}: cargo::core::compiler::fingerprint:           (vs) "C:\\Users\\sobak\\Documents\\rust\\urlshorter\\target\\debug\\.fingerprint\\url-shortler-58f40844928db055\\dep-test-bin-url-shortler"
+   0.251146000s  INFO prepare_target{force=false package_id=url-shortler v0.1.0 (C:\Users\sobak\Documents\rust\urlshorter) target="url-shortler"}: cargo::core::compiler::fingerprint:                FileTime { seconds: 13414338765, nanos: 467516300 } < FileTime { seconds: 13414339444, nanos: 773981800 }
+   0.251336500s  INFO prepare_target{force=false package_id=url-shortler v0.1.0 (C:\Users\sobak\Documents\rust\urlshorter) target="url-shortler"}: cargo::core::compiler::fingerprint: fingerprint dirty for url-shortler v0.1.0 (C:\Users\sobak\Documents\rust\urlshorter)/Check { test: true }/TargetInner { name: "url-shortler", doc: true, ..: with_path("C:\\Users\\sobak\\Documents\\rust\\urlshorter\\src\\main.rs", Edition2024) }
+   0.251359800s  INFO prepare_target{force=false package_id=url-shortler v0.1.0 (C:\Users\sobak\Documents\rust\urlshorter) target="url-shortler"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleItem(ChangedFile { reference: "C:\\Users\\sobak\\Documents\\rust\\urlshorter\\target\\debug\\.fingerprint\\url-shortler-58f40844928db055\\dep-test-bin-url-shortler", reference_mtime: FileTime { seconds: 13414338765, nanos: 467516300 }, stale: "C:\\Users\\sobak\\Documents\\rust\\urlshorter\\src\\ports\\httpapi\\mod.rs", stale_mtime: FileTime { seconds: 13414339444, nanos: 773981800 } }))
+    Checking url-shortler v0.1.0 (C:\Users\sobak\Documents\rust\urlshorter)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.89s

@@ -1,5 +1,5 @@
-C:\Users\Admin\Documents\rust_server\url-shortler\target\debug\build\serde_core-757956c5dcaa544b\build_script_build-757956c5dcaa544b.d: C:\Users\Admin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde_core-1.0.228\build.rs
+C:\Users\sobak\Documents\rust\urlshorter\target\debug\build\serde_core-757956c5dcaa544b\build_script_build-757956c5dcaa544b.d: C:\Users\sobak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde_core-1.0.228\build.rs
 
-C:\Users\Admin\Documents\rust_server\url-shortler\target\debug\build\serde_core-757956c5dcaa544b\build_script_build-757956c5dcaa544b.exe: C:\Users\Admin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde_core-1.0.228\build.rs
+C:\Users\sobak\Documents\rust\urlshorter\target\debug\build\serde_core-757956c5dcaa544b\build_script_build-757956c5dcaa544b.exe: C:\Users\sobak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde_core-1.0.228\build.rs
 
-C:\Users\Admin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde_core-1.0.228\build.rs:
+C:\Users\sobak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde_core-1.0.228\build.rs:

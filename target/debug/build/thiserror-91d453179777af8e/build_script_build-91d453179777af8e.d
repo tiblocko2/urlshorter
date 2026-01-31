@@ -1,5 +1,5 @@
-C:\Users\Admin\Documents\rust_server\url-shortler\target\debug\build\thiserror-91d453179777af8e\build_script_build-91d453179777af8e.d: C:\Users\Admin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\thiserror-1.0.69\build.rs
+C:\Users\sobak\Documents\rust\urlshorter\target\debug\build\thiserror-91d453179777af8e\build_script_build-91d453179777af8e.d: C:\Users\sobak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\thiserror-1.0.69\build.rs
 
-C:\Users\Admin\Documents\rust_server\url-shortler\target\debug\build\thiserror-91d453179777af8e\build_script_build-91d453179777af8e.exe: C:\Users\Admin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\thiserror-1.0.69\build.rs
+C:\Users\sobak\Documents\rust\urlshorter\target\debug\build\thiserror-91d453179777af8e\build_script_build-91d453179777af8e.exe: C:\Users\sobak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\thiserror-1.0.69\build.rs
 
-C:\Users\Admin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\thiserror-1.0.69\build.rs:
+C:\Users\sobak\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\thiserror-1.0.69\build.rs:
